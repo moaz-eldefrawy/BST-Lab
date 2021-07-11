@@ -24,6 +24,25 @@ class pair {
     }
 }
 
+class FruitFactory {
+    static create(type, weight) {
+        switch (type) {
+            case types.APPLE:
+                return new Apple(weight);
+            case types.AVOCADO:
+                return new Avocado(weight);
+            case types.GRAPES:
+                return new Grapes(weight);
+            case types.BLUE_BERRIES:
+                return new BlueBerries(weight);
+            case types.GOOSE_BERRIES:
+                return new GooseBerries(weight);
+            default:
+                return null;
+        }
+    }
+}
+
 class BST {
     constructor() {
         this.root = null;
@@ -88,7 +107,7 @@ class BST {
             }
 
             let lightest = this.findLightestHelper(node.right);
-            let newNode = this.fruitFactory(lightest.getType(), lightest.weight);
+            let newNode = FruitFactory.create(lightest.getType(), lightest.weight);
             newNode.left = node.left;
             newNode.right = node.right;
             node = newNode;
@@ -104,7 +123,7 @@ class BST {
 
     insertFruitHelper(node, type, weight) {
         if (node === null)
-            return this.fruitFactory(type, weight);
+            return FruitFactory.create(type, weight);
         if (node.weight === weight)
             return null;
         if (node.weight < weight)
@@ -131,7 +150,7 @@ class BST {
         let toBeMagnified = [];
         this.filterByTypeHelper(this.root, type, toBeMagnified);
 
-        for (let my_pair of toBeMagnified){
+        for (let my_pair of toBeMagnified) {
             this.deleteFruit(my_pair.first, my_pair.second);
         }
 
@@ -155,23 +174,6 @@ class BST {
         let res = [];
         this.filterByWeightHelper(this.root, weight, res);
         return res;
-    }
-
-    fruitFactory(type, weight) {
-        switch (type) {
-            case types.APPLE:
-                return new Apple(weight);
-            case types.AVOCADO:
-                return new Avocado(weight);
-            case types.GRAPES:
-                return new Grapes(weight);
-            case types.BLUE_BERRIES:
-                return new BlueBerries(weight);
-            case types.GOOSE_BERRIES:
-                return new GooseBerries(weight);
-            default:
-                return null;
-        }
     }
 
 
