@@ -2,7 +2,8 @@ class BST {
 
   var size = 0;
   var root:BSTNode = Empty;
-  def insert(value: Int, kind: String = "fruit"): Unit = this.root = insert(root,value, kind)
+  def insert(value: Int, kind: String = "fruit"): Unit = this.root = insert(root,new Node(value, kind, Empty, Empty))
+  def insert(node: Node): Unit = this.root = insert(root,node)
   def delete(value: Int): Unit = this.root = delete(root, value)
   def find(value: Int): Option[BSTNode] = find(root,value);
   def min(): Option[BSTNode] = min(root);
@@ -40,10 +41,17 @@ class BST {
   
 
   // ================== private methods ======================
+  private def insert(node: BSTNode, toInsert: Node): BSTNode = node match{
+    case Empty => toInsert;
+    case n: Node if(toInsert.v > n.v) => new Node(n.v, n.k, n.l, insert(n.r,toInsert) );
+    case n: Node if(toInsert.v < n.v) => new Node(n.v, n.k, insert(n.l,toInsert) , n.r);
+    case n: Node if(toInsert.v == n.v) => n;
+  }
+
   private def insert(node: BSTNode, value: Int, kind: String): BSTNode = node match{
     case Empty => new Node(value, kind, Empty , Empty);
-    case n: Node if(value > n.v) => Node(n.v, n.k, n.l, insert(n.r,value, kind) );
-    case n: Node if(value < n.v) => Node(n.v, n.k, insert(n.l,value, kind) , n.r);
+    case n: Node if(value > n.v) => new Node(n.v, n.k, n.l, insert(n.r,value, kind) );
+    case n: Node if(value < n.v) => new Node(n.v, n.k, insert(n.l,value, kind) , n.r);
     case n: Node if(value == n.v) => n;
   }
 
@@ -76,8 +84,8 @@ class BST {
 
   private def delete(node: BSTNode, weight: Int): BSTNode = node match{
     case Empty => Empty
-    case n: Node if(weight > n.v) => Node(n.v, n.k, n.l, delete(n.r,weight) );
-    case n: Node if(weight < n.v) => Node(n.v, n.k, delete(n.l,weight) , n.r);
+    case n: Node if(weight > n.v) => new Node(n.v, n.k, n.l, delete(n.r,weight) );
+    case n: Node if(weight < n.v) => new Node(n.v, n.k, delete(n.l,weight) , n.r);
     case n: Node if(weight == n.v) => 
       // node is a leaft
       if(n.l == Empty && n.r == Empty)
@@ -95,7 +103,8 @@ class BST {
         new Node(temp.value.get, temp.kind.get, temp2.left.get, temp2.right.get)
       }
   }
-
+ 
+}
 
 
   trait BSTNode {
@@ -125,23 +134,35 @@ class BST {
     }
   }
 
-  case class Node(var v: Int, var k: String, var l: BSTNode, var r: BSTNode) extends BSTNode 
+  class Node(val v: Int, val k: String, val l: BSTNode, val r: BSTNode) extends BSTNode  
+  class Fruit(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends Node(v,k,l,r)   
+
+  class OvalFruit(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends Fruit(v,k,l,r)   
+  class Apple(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends OvalFruit(v,k,l,r)   
+  class Avocado(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends OvalFruit(v,k,l,r)   
+
+  class TinyFruit(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends Fruit(v,k,l,r)   
+  class Grapes(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends TinyFruit(v,k,l,r)   
+  class Berries(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends TinyFruit(v,k,l,r)   
+  class BlueBerries(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends Berries(v,k,l,r)   
+  class RedBerries(override val v: Int, override val k: String,override val l: BSTNode,override val r: BSTNode) extends Berries(v,k,l,r)   
+  
   case object Empty extends BSTNode
 
-}
+
 
 object Main extends App {
   println("Hello, World!")
   
-  
   var k = new BST()
-  k insert(1, "fruit");
   
-  k insert(10, "nice");
-  k insert(10, "nice");
+  k.insert(1, "fruit");
+  
+  k.insert(10, "nice");
+  k.insert(10, "nice");
 
-  k insert(-5, "fruit");
-  k insert(0, "nice");
+  k.insert(-5, "fruit");
+  k.insert(0, "nice");
   
   
   k.iterate()
