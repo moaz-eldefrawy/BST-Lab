@@ -1,0 +1,4 @@
+[debug] [bst-test] Classpath dependencies List()
+[debug] [bst-test] Dependencies from configurations List(bst)
+[debug] Bloop wrote the configuration of project 'bst-test' to '/home/moaz/Desktop/scala/bst/.bloop/bst-test.json'
+[success] Generated .bloop/bst-test.json
