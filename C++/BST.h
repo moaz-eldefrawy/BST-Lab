@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include "fruits.h"
-
+#include <string>
 void output_vector(std::vector<std::pair<FruitType, int>>&);
-
+std::string repr(FruitType type);
 class BST
 {
 private:

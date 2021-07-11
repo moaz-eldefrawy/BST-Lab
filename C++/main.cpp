@@ -18,13 +18,19 @@ int main()
     tree.insertFruit(AVOCADO, 6);
     tree.Iterate();
     std::cout << std::endl;
-    // tree.magnifyByType(AVOCADO, 5);
+    tree.magnifyByType(AVOCADO, 5);
     tree.Iterate();
     std::cout << std::endl;
     //std::cout << tree.filterByType(OVAL_SHAPED).size();
 
     auto oval = tree.filterByWeight(-2);
     output_vector(oval);
+
+    BSTNode* lightest = tree.findLightest();
+    BSTNode* heaviest = tree.findHeaviest();
+
+    std::cout << "lightest is " << repr(lightest->getType()) << ", " << lightest->weight << std::endl;
+    std::cout << "heaviest is " << repr(heaviest->getType()) << ", " << heaviest->weight << std::endl;
 
     return 0;
 }

@@ -303,4 +303,14 @@ console.log();
 tree.magnifyByType(types.AVOCADO, 5);
 tree.iterate();
 console.log();
-console.log(tree.filterByWeight(-2));
+let filtered = tree.filterByWeight(-2);
+
+for(let my_pair of filtered)
+    process.stdout.write(`(${my_pair.first}, ${my_pair.second}), `);
+
+let lightest = tree.findLightest();
+console.log(`\nlightest is ${lightest.getType()}, ${lightest.weight}`);
+
+
+let heaviest = tree.findHeaviest();
+console.log(`heaviest is ${heaviest.getType()}, ${heaviest.weight}`);
