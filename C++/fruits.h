@@ -8,7 +8,6 @@ enum FruitType
     TINY_FRUIT,
     GRAPES,
     BERRIES,
-    ELDER_BERRIES,
     GOOSE_BERRIES,
     BLUE_BERRIES
 };
@@ -24,6 +23,9 @@ public:
     virtual bool isType(FruitType _type) = 0;
     virtual FruitType getType() = 0;
 };
+
+
+
 
 class OvalShaped : public BSTNode
 {
@@ -136,4 +138,28 @@ public:
     {
         return type == GOOSE_BERRIES || Berries::isType(type);
     }
+};
+
+class FruitFactory
+{
+public:
+    static BSTNode *create(FruitType type, int weight)
+    {
+        switch (type)
+        {
+        case APPLE:
+            return new Apple(weight);
+        case AVOCADO:
+            return new Avocado(weight);
+        case GRAPES:
+            return new Grapes(weight);
+        case BLUE_BERRIES:
+            return new BlueBerries(weight);
+        case GOOSE_BERRIES:
+            return new GooseBerries(weight);
+        default:
+            return nullptr;
+        }
+    }
+
 };

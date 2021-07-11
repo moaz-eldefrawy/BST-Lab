@@ -20,7 +20,6 @@ std::string repr(FruitType type)
     case GOOSE_BERRIES:
         return "goose berries";
         
-        
     default:
         return "";
     }
@@ -87,24 +86,6 @@ std::vector<std::pair<FruitType, int>> BST::filterByType(FruitType type)
 }
 
 
-BSTNode *fruitFactory(FruitType type, int weight)
-{
-    switch (type)
-    {
-    case APPLE:
-        return new Apple(weight);
-    case AVOCADO:
-        return new Avocado(weight);
-        case GRAPES:
-        return new Grapes(weight);
-        case BLUE_BERRIES:
-        return new BlueBerries(weight);
-        case GOOSE_BERRIES:
-        return new GooseBerries(weight);
-    default:
-        return nullptr;
-    }
-}
 
 BSTNode *BST::findLightest(BSTNode *node)
 {
@@ -141,7 +122,7 @@ BSTNode *BST::deleteFruit(BSTNode *node, FruitType type, int weight)
         }
 
         BSTNode *lightest = findLightest(node->right);
-        BSTNode *newNode = fruitFactory(lightest->getType(), lightest->weight);
+        BSTNode *newNode = FruitFactory::create(lightest->getType(), lightest->weight);
         newNode->left = node->left;
         newNode->right = node->right;
         delete node;
@@ -155,7 +136,7 @@ BSTNode *BST::deleteFruit(BSTNode *node, FruitType type, int weight)
 BSTNode *BST::insertFruit(BSTNode *node, FruitType type, int weight)
 {
     if (node == nullptr)
-        return fruitFactory(type, weight);
+        return FruitFactory::create(type, weight);
     if (node->weight == weight)
         return nullptr;
     if (node->weight < weight)
